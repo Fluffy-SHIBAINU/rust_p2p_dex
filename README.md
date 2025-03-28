@@ -4,6 +4,7 @@
 
 A **high-performance** QUIC-based decentralized exchange (DEX) written in **Rust**. This project demonstrates **secure, low-latency** peer-to-peer (P2P) order transmission using QUIC.
 
+<img width="834" alt="image" src="https://github.com/user-attachments/assets/b7e6b642-7172-47ec-9b7d-18348173b713" />
 
 
 
