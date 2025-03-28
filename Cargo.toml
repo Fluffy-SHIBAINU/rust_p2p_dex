@@ -4,8 +4,22 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+quinn = { version = "0.10", features = ["tls-rustls"] }
+rustls = { version = "0.21", features = ["dangerous_configuration"] }
 tokio = { version = "1", features = ["full"] }
-libp2p = { version = "0.53", features = ["tcp", "tokio", "mdns", "gossipsub"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-futures = "0.3"
+rcgen = "0.11"
+socket2 = "0.5"
+
+
+
+
+[[bin]]
+name = "rust_p2p_dex"
+path = "src/main.rs"  # ✅ 서버 실행 파일
+default-run = "rust_p2p_dex"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"

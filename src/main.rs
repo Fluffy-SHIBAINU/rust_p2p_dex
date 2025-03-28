@@ -1,25 +1,18 @@
-mod network;
-mod order;
-
-use futures::prelude::*;
-use libp2p::{identity, PeerId};
-use network::start_p2p_network;
+mod network; // ✅ `network.rs`를 가져옴
+use network::start_server;
 use tokio::sync::mpsc;
+use std::error::Error;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn Error>> {
     let (tx, mut rx) = mpsc::unbounded_channel();
-    
-    // 랜덤 키 생성 (노드 ID)
-    let local_key = identity::Keypair::generate_ed25519();
-    let local_peer_id = PeerId::from(local_key.public());
 
-    println!("🔥 P2P 노드 시작: {:?}", local_peer_id);
+    tokio::spawn(async move {
+        while let Some(order) = rx.recv().await {
+            println!("📩 수신된 주문 데이터: {}", order);
+        }
+    });
 
-    // 네트워크 시작
-    let _network_handle = tokio::spawn(start_p2p_network(local_key, tx));
-
-    while let Some(msg) = rx.recv().await {
-        println!("📩 수신된 메시지: {}", msg);
-    }
+    start_server("127.0.0.1:5000", tx).await?;
+    Ok(())
 }
